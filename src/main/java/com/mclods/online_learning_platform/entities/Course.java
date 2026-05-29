@@ -1,0 +1,59 @@
+package com.mclods.online_learning_platform.entities;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "course")
+public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "price")
+    private Double price;
+
+    @Column(name = "level")
+    @Enumerated(EnumType.STRING)
+    private CourseLevel level;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "course")
+    private Set<Enrollment> students;
+
+    @ManyToOne
+    @JoinColumn(name = "instructor_id")
+    private Instructor instructor;
+
+    @OneToMany(mappedBy = "course")
+    private Set<Module> modules;
+
+    @ManyToMany
+    @JoinTable(
+            name = "course_tag",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags;
+
+    public enum CourseLevel {
+        BEGINNER, INTERMEDIATE, ADVANCED
+    }
+}
