@@ -1,0 +1,5 @@
+CREATE TABLE submission(
+    id INTEGER GENERATED ALWAYS AS IDENTITY,
+    score NUMERIC(7, 2) NULL,
+    submitted_at TIMESTAMP NOT NULL
+);

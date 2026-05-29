@@ -1,0 +1,8 @@
+CREATE TABLE course(
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description VARCHAR NOT NULL,
+    price NUMERIC(10, 2) NOT NULL,
+    level varchar(100) NOT NULL,
+    created_at TIMESTAMP NOT NULL
+);
