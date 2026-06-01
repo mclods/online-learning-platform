@@ -1,6 +1,8 @@
 package com.mclods.online_learning_platform.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,15 +21,19 @@ public class Course {
     @Column(name = "id")
     private Integer id;
 
+    @NotBlank(message = "Course Title cannot be blank")
     @Column(name = "title")
     private String title;
 
+    @NotBlank(message = "Course Description cannot be bank")
     @Column(name = "description")
     private String description;
 
+    @NotNull(message = "Course Price cannot be null")
     @Column(name = "price")
     private Double price;
 
+    @NotNull(message = "Course Level cannot be null")
     @Column(name = "level")
     @Enumerated(EnumType.STRING)
     private CourseLevel level;
@@ -38,6 +44,7 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private Set<Enrollment> students;
 
+    @NotNull(message = "Course does not have a valid instructor")
     @ManyToOne
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;

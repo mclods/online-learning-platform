@@ -1,9 +1,11 @@
 package com.mclods.online_learning_platform.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
@@ -26,8 +28,22 @@ public class StudentProfile {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
+    @ToString.Exclude
+    @NotNull(message = "Student Profile does not have a valid student")
     @OneToOne
     @JoinColumn(name = "id")
-    @MapsId("id")
+    @MapsId
     private Student student;
+
+    public StudentProfile(String bio, String avatarUrl, LocalDate dateOfBirth,  Student student) {
+        this.bio = bio;
+        this.avatarUrl = avatarUrl;
+        this.dateOfBirth = dateOfBirth;
+        setStudent(student);
+    }
+
+    public void setStudent(Student student) {
+        student.setStudentProfile(this);
+        this.student = student;
+    }
 }

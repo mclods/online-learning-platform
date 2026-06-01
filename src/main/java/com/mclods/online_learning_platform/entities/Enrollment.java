@@ -1,6 +1,7 @@
 package com.mclods.online_learning_platform.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,11 +17,13 @@ public class Enrollment {
     @EmbeddedId
     private EnrollmentId id;
 
+    @NotNull(message = "Enrollment does not have a valid student")
     @ManyToOne
     @JoinColumn(name = "student_id")
     @MapsId("studentId")
     private Student student;
 
+    @NotNull(message = "Enrollment does not have a valid course")
     @ManyToOne
     @JoinColumn(name = "course_id")
     @MapsId("courseId")
