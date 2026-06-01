@@ -1,6 +1,8 @@
 package com.mclods.online_learning_platform.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +20,11 @@ public class Instructor {
     @Column(name = "id")
     private Integer id;
 
+    @NotBlank(message = "Instructor Name cannot be blank")
     @Column(name = "name")
     private String name;
 
+    @Email(message = "Instructor Email is not valid")
     @Column(name = "email")
     private String email;
 

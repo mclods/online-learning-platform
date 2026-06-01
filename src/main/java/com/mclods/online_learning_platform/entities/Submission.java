@@ -1,6 +1,7 @@
 package com.mclods.online_learning_platform.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,10 +25,12 @@ public class Submission {
     @Column(name = "submitted_at")
     private LocalDateTime submittedAt;
 
+    @NotNull(message = "Submission does not have a valid assignment")
     @ManyToOne
     @JoinColumn(name = "assignment_id")
     private Assignment assignment;
 
+    @NotNull(message = "Submission does not have a valid student")
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
