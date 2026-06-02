@@ -24,7 +24,16 @@ public class DataServiceImpl implements DataService {
     private final EnrollmentService enrollmentService;
     private final TagService tagService;
 
-    public DataServiceImpl(StudentService studentService, StudentProfileService studentProfileService, InstructorService instructorService, CourseService courseService, ModuleService moduleService, AssignmentService assignmentService, SubmissionService submissionService, EnrollmentService enrollmentService, EnrollmentService enrollmentService1, TagService tagService) {
+    public DataServiceImpl(
+            StudentService studentService,
+            StudentProfileService studentProfileService,
+            InstructorService instructorService,
+            CourseService courseService,
+            ModuleService moduleService,
+            AssignmentService assignmentService,
+            SubmissionService submissionService,
+            EnrollmentService enrollmentService,
+            TagService tagService) {
         this.studentService = studentService;
         this.studentProfileService = studentProfileService;
         this.instructorService = instructorService;
@@ -32,7 +41,7 @@ public class DataServiceImpl implements DataService {
         this.moduleService = moduleService;
         this.assignmentService = assignmentService;
         this.submissionService = submissionService;
-        this.enrollmentService = enrollmentService1;
+        this.enrollmentService = enrollmentService;
         this.tagService = tagService;
     }
 

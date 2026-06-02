@@ -86,4 +86,14 @@ public class CourseServiceImpl implements CourseService {
 
         return updatedCourses;
     }
+
+    @Override
+    public List<Course> findCoursesHavingPriceBetween(Double minPrice, Double maxPrice) {
+        return courseRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
+    @Override
+    public List<Course> findCoursesHavingPriceBetweenSortedByTitle(Double minPrice, Double maxPrice) {
+        return courseRepository.findByPriceBetweenOrderByTitle(minPrice, maxPrice);
+    }
 }

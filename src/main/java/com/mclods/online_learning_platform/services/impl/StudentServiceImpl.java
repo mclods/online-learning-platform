@@ -47,4 +47,9 @@ public class StudentServiceImpl implements StudentService {
     public Optional<Student> findStudentById(Integer id) {
         return studentRepository.findById(id);
     }
+
+    @Override
+    public List<Student> findStudentsByName(String name) {
+        return studentRepository.findByName(name);
+    }
 }
