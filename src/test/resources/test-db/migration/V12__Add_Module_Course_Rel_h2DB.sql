@@ -1,0 +1,9 @@
+ALTER TABLE module
+ADD COLUMN course_id INTEGER;
+
+
+ALTER TABLE module
+ADD CONSTRAINT fk_module_course
+FOREIGN KEY (course_id)
+REFERENCES course(id)
+ON DELETE CASCADE;
