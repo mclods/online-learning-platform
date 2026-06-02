@@ -13,4 +13,6 @@ public interface StudentService {
     List<Student> findAllStudents();
 
     Optional<Student> findStudentById(Integer id);
+
+    List<Student> findStudentsByName(String name);
 }

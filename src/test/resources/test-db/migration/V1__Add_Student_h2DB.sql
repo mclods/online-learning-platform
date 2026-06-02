@@ -1,0 +1,6 @@
+CREATE TABLE student(
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name varchar(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP NOT NULL
+);

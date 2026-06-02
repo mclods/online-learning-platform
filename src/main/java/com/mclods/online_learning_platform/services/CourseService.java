@@ -18,4 +18,8 @@ public interface CourseService {
     Course fullUpdateCourse(Course course) throws EntityDoesNotExistException;
 
     List<Course> fullUpdateCourses(List<Course> courses) throws EntityDoesNotExistException;
+
+    List<Course> findCoursesHavingPriceBetween(Double minPrice, Double maxPrice);
+
+    List<Course> findCoursesHavingPriceBetweenSortedByTitle(Double minPrice, Double maxPrice);
 }
