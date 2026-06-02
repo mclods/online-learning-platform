@@ -39,11 +39,6 @@ public class StudentProfile {
         this.bio = bio;
         this.avatarUrl = avatarUrl;
         this.dateOfBirth = dateOfBirth;
-        setStudent(student);
-    }
-
-    public void setStudent(Student student) {
-        student.setStudentProfile(this);
         this.student = student;
     }
 }

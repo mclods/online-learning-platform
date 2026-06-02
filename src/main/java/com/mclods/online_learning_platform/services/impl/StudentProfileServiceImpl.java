@@ -9,6 +9,10 @@ import com.mclods.online_learning_platform.services.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class StudentProfileServiceImpl implements StudentProfileService {
     private final StudentProfileRepository studentProfileRepository;
@@ -21,12 +25,25 @@ public class StudentProfileServiceImpl implements StudentProfileService {
 
     @Override
     public StudentProfile createStudentProfile(@Valid StudentProfile studentProfile) throws EntityDoesNotExistException {
-        if(!studentService.studentExistsById(studentProfile.getStudent().getId())) {
-            throw new EntityDoesNotExistException(Student.class, studentProfile.getStudent().getId());
+        Integer studentId = studentProfile.getStudent().getId();
+        Optional<Student> savedStudent = studentService.findStudentById(studentId);
+
+        if(savedStudent.isEmpty() || !savedStudent.get().equals(studentProfile.getStudent())) {
+            throw new EntityDoesNotExistException(studentProfile.getStudent());
         }
 
         studentProfile.setId(null);
 
         return studentProfileRepository.save(studentProfile);
+    }
+
+    @Override
+    public List<StudentProfile> createStudentProfiles(List<StudentProfile> studentProfiles) throws EntityDoesNotExistException {
+        List<StudentProfile> savedStudentProfiles = new ArrayList<>();
+
+        for(StudentProfile studentProfile : studentProfiles) {
+            savedStudentProfiles.add(createStudentProfile(studentProfile));
+        }
+        return savedStudentProfiles;
     }
 }

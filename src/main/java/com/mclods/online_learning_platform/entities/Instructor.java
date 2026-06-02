@@ -33,4 +33,10 @@ public class Instructor {
 
     @OneToMany(mappedBy = "instructor")
     private Set<Course> courses;
+
+    public Instructor(String name, String email, String bio) {
+        this.name = name;
+        this.email = email;
+        this.bio = bio;
+    }
 }

@@ -25,4 +25,8 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags")
     private Set<Course> courses;
+
+    public Tag(String name) {
+        this.name = name;
+    }
 }

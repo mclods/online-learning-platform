@@ -9,6 +9,10 @@ import com.mclods.online_learning_platform.services.ModuleService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ModuleServiceImpl implements ModuleService {
     private final ModuleRepository moduleRepository;
@@ -21,8 +25,11 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public Module createModule(@Valid Module module) throws EntityDoesNotExistException {
-        if(!courseService.courseExistsById(module.getCourse().getId())) {
-            throw new EntityDoesNotExistException(Course.class, module.getCourse().getId());
+        Integer courseId = module.getCourse().getId();
+        Optional<Course> savedCourse = courseService.findCourseById(courseId);
+
+        if(savedCourse.isEmpty() || !savedCourse.get().equals(module.getCourse())) {
+            throw new EntityDoesNotExistException(module.getCourse());
         }
 
         module.setId(null);
@@ -31,7 +38,25 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public boolean moduleExistsById(Integer id) {
-        return moduleRepository.existsById(id);
+    public List<Module> createModules(List<Module> modules) throws EntityDoesNotExistException {
+        List<Module> savedModules = new ArrayList<>();
+
+        for (Module module : modules) {
+            savedModules.add(createModule(module));
+        }
+        return savedModules;
+    }
+
+    @Override
+    public List<Module> findAllModules() {
+        List<Module> modules = new ArrayList<>();
+        moduleRepository.findAll().forEach(modules::add);
+
+        return modules;
+    }
+
+    @Override
+    public Optional<Module> findModuleById(Integer id) {
+        return moduleRepository.findById(id);
     }
 }

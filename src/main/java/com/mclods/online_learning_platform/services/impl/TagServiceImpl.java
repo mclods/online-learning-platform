@@ -6,6 +6,9 @@ import com.mclods.online_learning_platform.services.TagService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
@@ -19,5 +22,18 @@ public class TagServiceImpl implements TagService {
         tag.setId(null);
 
         return tagRepository.save(tag);
+    }
+
+    @Override
+    public List<Tag> createTags(List<Tag> tags) {
+        return tags.stream().map(this::createTag).toList();
+    }
+
+    @Override
+    public List<Tag> findAllTags() {
+        List<Tag> tags = new ArrayList<>();
+        tagRepository.findAll().forEach(tags::add);
+
+        return tags;
     }
 }

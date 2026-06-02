@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Set;
 
@@ -26,10 +27,11 @@ public class Module {
     private String title;
 
     @NotNull(message = "Module Order cannot be null")
-    @Min(value = 0, message = "Module Order should have a min value of 0")
+    @Min(value = 1, message = "Module Order should have a min value of 1")
     @Column(name = "order_index")
     private Integer orderIndex;
 
+    @ToString.Exclude
     @NotNull(message = "Module does not have a valid course")
     @ManyToOne
     @JoinColumn(name = "course_id")
@@ -37,4 +39,10 @@ public class Module {
 
     @OneToMany(mappedBy = "module")
     private Set<Assignment> assignments;
+
+    public Module(String title, Integer orderIndex, Course course) {
+        this.title = title;
+        this.orderIndex = orderIndex;
+        this.course = course;
+    }
 }

@@ -3,8 +3,8 @@ package com.mclods.online_learning_platform.exceptions;
 public class EntityDoesNotExistException extends Exception {
     private final String message;
 
-    public <T>EntityDoesNotExistException(Class<T> entity, Integer id) {
-        message = "Trying to perform operation involving (Entity=%s, Id=%d) which does not exist.".formatted(entity.getName(), id);
+    public EntityDoesNotExistException(Object entity) {
+        message = "Trying to perform operation involving (Entity=%s) which does not exist.".formatted(entity);
     }
 
     @Override

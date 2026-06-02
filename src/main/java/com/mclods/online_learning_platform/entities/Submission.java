@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -25,13 +26,22 @@ public class Submission {
     @Column(name = "submitted_at")
     private LocalDateTime submittedAt;
 
+    @ToString.Exclude
     @NotNull(message = "Submission does not have a valid assignment")
     @ManyToOne
     @JoinColumn(name = "assignment_id")
     private Assignment assignment;
 
+    @ToString.Exclude
     @NotNull(message = "Submission does not have a valid student")
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+    public Submission(Double score, LocalDateTime submittedAt, Assignment assignment, Student student) {
+        this.score = score;
+        this.submittedAt = submittedAt;
+        this.assignment = assignment;
+        this.student = student;
+    }
 }
