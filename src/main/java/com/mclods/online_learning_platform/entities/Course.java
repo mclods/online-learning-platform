@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -44,6 +45,7 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private Set<Enrollment> students;
 
+    @ToString.Exclude
     @NotNull(message = "Course does not have a valid instructor")
     @ManyToOne
     @JoinColumn(name = "instructor_id")
@@ -59,6 +61,16 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags;
+
+    public Course(String title, String description, Double price, CourseLevel level,
+                  LocalDateTime createdAt, Instructor instructor) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.level = level;
+        this.createdAt = createdAt;
+        this.instructor = instructor;
+    }
 
     public enum CourseLevel {
         BEGINNER, INTERMEDIATE, ADVANCED

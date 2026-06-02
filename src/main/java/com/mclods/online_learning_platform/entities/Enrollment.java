@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -17,12 +18,14 @@ public class Enrollment {
     @EmbeddedId
     private EnrollmentId id;
 
+    @ToString.Exclude
     @NotNull(message = "Enrollment does not have a valid student")
     @ManyToOne
     @JoinColumn(name = "student_id")
     @MapsId("studentId")
     private Student student;
 
+    @ToString.Exclude
     @NotNull(message = "Enrollment does not have a valid course")
     @ManyToOne
     @JoinColumn(name = "course_id")
@@ -32,6 +35,18 @@ public class Enrollment {
     @Column(name = "enrolled_at")
     private LocalDateTime enrolledAt;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private EnrollmentStatus status;
+
+    public Enrollment(Student student, Course course, LocalDateTime enrolledAt, EnrollmentStatus status) {
+        this.student = student;
+        this.course = course;
+        this.enrolledAt = enrolledAt;
+        this.status = status;
+    }
+
+    public enum EnrollmentStatus {
+        COMPLETED, ACTIVE, DROPPED
+    }
 }

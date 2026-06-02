@@ -12,6 +12,11 @@ import com.mclods.online_learning_platform.services.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EnrollmentServiceImpl implements EnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
@@ -26,20 +31,35 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public Enrollment createEnrollment(@Valid Enrollment enrollment) throws EntityDoesNotExistException {
-        if(!studentService.studentExistsById(enrollment.getStudent().getId())) {
-            throw new EntityDoesNotExistException(Student.class, enrollment.getStudent().getId());
+        Integer studentId = enrollment.getStudent().getId(),
+                courseId = enrollment.getCourse().getId();
+        Optional<Student> savedStudent = studentService.findStudentById(studentId);
+        Optional<Course> savedCourse = courseService.findCourseById(courseId);
+
+        if(savedStudent.isEmpty() || !savedStudent.get().equals(enrollment.getStudent())) {
+            throw new EntityDoesNotExistException(enrollment.getStudent());
         }
 
-        if(!courseService.courseExistsById(enrollment.getCourse().getId())) {
-            throw new EntityDoesNotExistException(Course.class, enrollment.getCourse().getId());
+        if(savedCourse.isEmpty() || !savedCourse.get().equals(enrollment.getCourse())) {
+            throw new EntityDoesNotExistException(enrollment.getCourse());
         }
 
-        EnrollmentId enrollmentId = new EnrollmentId(
-                enrollment.getStudent().getId(),
-                enrollment.getCourse().getId()
-        );
-        enrollment.setId(enrollmentId);
+        enrollment.setId(new EnrollmentId());
+
+        if(enrollment.getEnrolledAt() == null) {
+            enrollment.setEnrolledAt(LocalDateTime.now());
+        }
 
         return enrollmentRepository.save(enrollment);
+    }
+
+    @Override
+    public List<Enrollment> createEnrollments(List<Enrollment> enrollments) throws EntityDoesNotExistException {
+        List<Enrollment> savedEnrollments = new ArrayList<>();
+        for (Enrollment enrollment : enrollments) {
+            savedEnrollments.add(createEnrollment(enrollment));
+        }
+
+        return savedEnrollments;
     }
 }

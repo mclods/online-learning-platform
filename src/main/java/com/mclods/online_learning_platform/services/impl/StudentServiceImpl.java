@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -30,8 +31,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public boolean studentExistsById(Integer id) {
-        return studentRepository.existsById(id);
+    public List<Student> createStudents(List<Student> students) {
+        return students.stream().map(this::createStudent).toList();
     }
 
     @Override
@@ -40,5 +41,10 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.findAll().forEach(students::add);
 
         return students;
+    }
+
+    @Override
+    public Optional<Student> findStudentById(Integer id) {
+        return studentRepository.findById(id);
     }
 }

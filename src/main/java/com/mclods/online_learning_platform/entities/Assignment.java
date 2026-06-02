@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -35,6 +36,7 @@ public class Assignment {
     @Column(name = "due_date")
     private LocalDateTime dueDate;
 
+    @ToString.Exclude
     @NotNull(message = "Assignment does not have a valid module")
     @ManyToOne
     @JoinColumn(name = "module_id")
@@ -42,4 +44,11 @@ public class Assignment {
 
     @OneToMany(mappedBy = "assignment")
     private Set<Submission> submissions;
+
+    public Assignment(String title, Double maxScore, LocalDateTime dueDate, Module module) {
+        this.title = title;
+        this.maxScore = maxScore;
+        this.dueDate = dueDate;
+        this.module = module;
+    }
 }

@@ -9,6 +9,10 @@ import com.mclods.online_learning_platform.services.ModuleService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assignmentRepository;
@@ -21,8 +25,11 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public Assignment createAssignment(@Valid Assignment assignment) throws EntityDoesNotExistException {
-        if(!moduleService.moduleExistsById(assignment.getModule().getId())) {
-            throw new EntityDoesNotExistException(Module.class, assignment.getModule().getId());
+        Integer moduleId = assignment.getModule().getId();
+        Optional<Module> savedModule = moduleService.findModuleById(moduleId);
+
+        if(savedModule.isEmpty() || !savedModule.get().equals(assignment.getModule())) {
+            throw new EntityDoesNotExistException(assignment.getModule());
         }
 
         assignment.setId(null);
@@ -31,7 +38,25 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public boolean assignmentExistsById(Integer id) {
-        return assignmentRepository.existsById(id);
+    public List<Assignment> createAssignments(List<Assignment> assignments) throws EntityDoesNotExistException {
+        List<Assignment> savedAssignments = new ArrayList<>();
+
+        for (Assignment assignment : assignments) {
+            savedAssignments.add(createAssignment(assignment));
+        }
+        return savedAssignments;
+    }
+
+    @Override
+    public List<Assignment> findAllAssignments() {
+        List<Assignment> assignments = new ArrayList<>();
+        assignmentRepository.findAll().forEach(assignments::add);
+
+        return assignments;
+    }
+
+    @Override
+    public Optional<Assignment> findAssignmentById(Integer id) {
+        return assignmentRepository.findById(id);
     }
 }
