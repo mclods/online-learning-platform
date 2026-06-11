@@ -33,7 +33,7 @@ public class Student {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "student")
-    private Set<Enrollment> courses;
+    private Set<Enrollment> enrollments;
 
     @OneToOne(mappedBy = "student")
     private StudentProfile studentProfile;

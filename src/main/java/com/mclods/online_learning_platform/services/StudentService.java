@@ -14,5 +14,9 @@ public interface StudentService {
 
     Optional<Student> findStudentById(Integer id);
 
-    List<Student> findStudentsByName(String name);
+    List<Student> findStudentsByEmail(String email);
+
+    List<String> findStudentNamesCompletedAtLeastOneCourse();
+
+    List<Student> findStudentsHavingNameContainingWord(String word);
 }

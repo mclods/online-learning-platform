@@ -88,6 +88,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<Course> findCoursesHavingTitleContainingWordIgnoreCase(String word) {
+        return courseRepository.findByTitleContainingIgnoreCase(word);
+    }
+
+    @Override
     public List<Course> findCoursesHavingPriceBetween(Double minPrice, Double maxPrice) {
         return courseRepository.findByPriceBetween(minPrice, maxPrice);
     }
@@ -95,5 +100,20 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> findCoursesHavingPriceBetweenSortedByTitle(Double minPrice, Double maxPrice) {
         return courseRepository.findByPriceBetweenOrderByTitle(minPrice, maxPrice);
+    }
+
+    @Override
+    public Long findNumberOfIntermediateCourses() {
+        return courseRepository.findNumberOfIntermediateCourses();
+    }
+
+    @Override
+    public List<Course> findCoursesHavingInstructorId(Integer id) {
+        return courseRepository.findByInstructorId(id);
+    }
+
+    @Override
+    public List<Course> findCoursesByStudentId(Integer id) {
+        return courseRepository.findCoursesByStudentId(id);
     }
 }

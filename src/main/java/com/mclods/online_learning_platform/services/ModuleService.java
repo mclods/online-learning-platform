@@ -14,4 +14,6 @@ public interface ModuleService {
     List<Module> findAllModules();
 
     Optional<Module> findModuleById(Integer id);
+
+    List<Module> findModulesByCourseId(Integer courseId);
 }
