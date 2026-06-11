@@ -9,6 +9,7 @@ import com.mclods.online_learning_platform.services.ModuleService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -58,5 +59,10 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public Optional<Assignment> findAssignmentById(Integer id) {
         return assignmentRepository.findById(id);
+    }
+
+    @Override
+    public List<Assignment> findAssignmentsByDueDateLessThan(LocalDateTime dueDateLimit) {
+        return assignmentRepository.findByDueDateLessThan(dueDateLimit);
     }
 }

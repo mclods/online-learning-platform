@@ -61,4 +61,9 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         return savedSubmissions;
     }
+
+    @Override
+    public List<Submission> findSubmissionsHavingScoreBetween(Double minScore, Double maxScore) {
+        return submissionRepository.findByScoreBetween(minScore, maxScore);
+    }
 }

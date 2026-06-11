@@ -4,6 +4,8 @@ import com.mclods.online_learning_platform.entities.Student;
 import com.mclods.online_learning_platform.repositories.StudentRepository;
 import com.mclods.online_learning_platform.services.StudentService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -37,10 +39,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> findAllStudents() {
-        List<Student> students = new ArrayList<>();
-        studentRepository.findAll().forEach(students::add);
-
-        return students;
+        return new ArrayList<>(studentRepository.findAll());
     }
 
     @Override
@@ -49,7 +48,23 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> findStudentsByName(String name) {
-        return studentRepository.findByName(name);
+    public List<Student> findStudentsByEmail(String email) {
+        return studentRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<String> findStudentNamesCompletedAtLeastOneCourse() {
+        return studentRepository.findStudentsCompletedAtLeastOneCourse();
+    }
+
+    @Override
+    public List<Student> findStudentsHavingNameContainingWord(String word) {
+        var student = new Student();
+        student.setName(word);
+
+        var matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        var example = Example.of(student,  matcher);
+        return studentRepository.findAll(example);
     }
 }

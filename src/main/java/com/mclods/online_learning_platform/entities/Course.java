@@ -43,7 +43,7 @@ public class Course {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "course")
-    private Set<Enrollment> students;
+    private Set<Enrollment> enrollments;
 
     @ToString.Exclude
     @NotNull(message = "Course does not have a valid instructor")

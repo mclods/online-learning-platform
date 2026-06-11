@@ -19,7 +19,15 @@ public interface CourseService {
 
     List<Course> fullUpdateCourses(List<Course> courses) throws EntityDoesNotExistException;
 
+    List<Course> findCoursesHavingTitleContainingWordIgnoreCase(String word);
+
     List<Course> findCoursesHavingPriceBetween(Double minPrice, Double maxPrice);
 
     List<Course> findCoursesHavingPriceBetweenSortedByTitle(Double minPrice, Double maxPrice);
+
+    Long findNumberOfIntermediateCourses();
+
+    List<Course> findCoursesHavingInstructorId(Integer id);
+
+    List<Course> findCoursesByStudentId(Integer id);
 }
