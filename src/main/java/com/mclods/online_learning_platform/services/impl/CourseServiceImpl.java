@@ -1,7 +1,6 @@
 package com.mclods.online_learning_platform.services.impl;
 
 import com.mclods.online_learning_platform.entities.Course;
-import com.mclods.online_learning_platform.entities.Instructor;
 import com.mclods.online_learning_platform.exceptions.EntityDoesNotExistException;
 import com.mclods.online_learning_platform.repositories.CourseRepository;
 import com.mclods.online_learning_platform.services.CourseService;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -28,10 +26,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course createCourse(@Valid Course course) throws EntityDoesNotExistException {
-        Integer instructorId = course.getInstructor().getId();
-        Optional<Instructor> savedInstructor = instructorService.findInstructorById(instructorId);
-
-        if(savedInstructor.isEmpty() || !savedInstructor.get().equals(course.getInstructor())) {
+        if(!instructorService.instructorExistsById(course.getInstructor().getId())) {
             throw new EntityDoesNotExistException(course.getInstructor());
         }
 
@@ -66,16 +61,13 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Optional<Course> findCourseById(Integer id) {
-        return courseRepository.findById(id);
+    public boolean courseExistsById(Integer id) {
+        return courseRepository.existsById(id);
     }
 
     @Override
     public Course fullUpdateCourse(Course course) throws EntityDoesNotExistException {
-        Integer instructorId = course.getInstructor().getId();
-        Optional<Instructor> savedInstructor = instructorService.findInstructorById(instructorId);
-
-        if(savedInstructor.isEmpty() || !savedInstructor.get().equals(course.getInstructor())) {
+        if(!instructorService.instructorExistsById(course.getInstructor().getId())) {
             throw new EntityDoesNotExistException(course.getInstructor());
         }
 
@@ -90,6 +82,12 @@ public class CourseServiceImpl implements CourseService {
         }
 
         return updatedCourses;
+    }
+
+    @Override
+    public void deleteAllCourses() {
+        courseRepository.deleteAll();
+        log.info("All courses deleted");
     }
 
     @Override
@@ -120,11 +118,5 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> findCoursesByStudentId(Integer id) {
         return courseRepository.findCoursesByStudentId(id);
-    }
-
-    @Override
-    public void deleteAllCourses() {
-        courseRepository.deleteAll();
-        log.info("All courses deleted");
     }
 }

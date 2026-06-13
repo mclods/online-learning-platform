@@ -1,7 +1,5 @@
 package com.mclods.online_learning_platform.services.impl;
 
-import com.mclods.online_learning_platform.entities.Assignment;
-import com.mclods.online_learning_platform.entities.Student;
 import com.mclods.online_learning_platform.entities.Submission;
 import com.mclods.online_learning_platform.exceptions.EntityDoesNotExistException;
 import com.mclods.online_learning_platform.repositories.SubmissionRepository;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -32,16 +29,11 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     @Override
     public Submission createSubmission(@Valid Submission submission) throws EntityDoesNotExistException {
-        Integer assignmentId = submission.getAssignment().getId(),
-                studentId = submission.getStudent().getId();
-        Optional<Assignment> savedAssignment = assignmentService.findAssignmentById(assignmentId);
-        Optional<Student> savedStudent = studentService.findStudentById(studentId);
-
-        if(savedAssignment.isEmpty() || !savedAssignment.get().equals(submission.getAssignment())) {
+        if(!assignmentService.assignmentExistsById(submission.getAssignment().getId())) {
             throw new EntityDoesNotExistException(submission.getAssignment());
         }
 
-        if(savedStudent.isEmpty() || !savedStudent.get().equals(submission.getStudent())) {
+        if(!studentService.studentExistsById(submission.getStudent().getId())) {
             throw new EntityDoesNotExistException(submission.getStudent());
         }
 

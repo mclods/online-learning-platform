@@ -47,7 +47,7 @@ public class Course {
 
     @ToString.Exclude
     @NotNull(message = "Course does not have a valid instructor")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
@@ -63,13 +63,14 @@ public class Course {
     private Set<Tag> tags;
 
     public Course(String title, String description, Double price, CourseLevel level,
-                  LocalDateTime createdAt, Instructor instructor) {
+                  LocalDateTime createdAt, Instructor instructor, Set<Tag> tags) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.level = level;
         this.createdAt = createdAt;
         this.instructor = instructor;
+        this.tags = tags;
     }
 
     public enum CourseLevel {

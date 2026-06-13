@@ -20,14 +20,14 @@ public class Enrollment {
 
     @ToString.Exclude
     @NotNull(message = "Enrollment does not have a valid student")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     @MapsId("studentId")
     private Student student;
 
     @ToString.Exclude
     @NotNull(message = "Enrollment does not have a valid course")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     @MapsId("courseId")
     private Course course;

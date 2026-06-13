@@ -15,12 +15,13 @@ public class DataController {
     }
 
     @PutMapping("/create-dummy")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public void createDummyData() throws EntityDoesNotExistException {
         dataService.createDummyData();
     }
 
     @DeleteMapping("/delete-dummy")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDummyData() {
         dataService.deleteDummyData();
     }

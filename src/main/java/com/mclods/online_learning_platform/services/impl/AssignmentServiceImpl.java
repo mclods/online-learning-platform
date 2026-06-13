@@ -1,7 +1,6 @@
 package com.mclods.online_learning_platform.services.impl;
 
 import com.mclods.online_learning_platform.entities.Assignment;
-import com.mclods.online_learning_platform.entities.Module;
 import com.mclods.online_learning_platform.exceptions.EntityDoesNotExistException;
 import com.mclods.online_learning_platform.repositories.AssignmentRepository;
 import com.mclods.online_learning_platform.services.AssignmentService;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -28,10 +26,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public Assignment createAssignment(@Valid Assignment assignment) throws EntityDoesNotExistException {
-        Integer moduleId = assignment.getModule().getId();
-        Optional<Module> savedModule = moduleService.findModuleById(moduleId);
-
-        if(savedModule.isEmpty() || !savedModule.get().equals(assignment.getModule())) {
+        if(!moduleService.moduleExistsById(assignment.getModule().getId())) {
             throw new EntityDoesNotExistException(assignment.getModule());
         }
 
@@ -62,18 +57,18 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Optional<Assignment> findAssignmentById(Integer id) {
-        return assignmentRepository.findById(id);
-    }
-
-    @Override
-    public List<Assignment> findAssignmentsByDueDateLessThan(LocalDateTime dueDateLimit) {
-        return assignmentRepository.findByDueDateLessThan(dueDateLimit);
+    public boolean assignmentExistsById(Integer id) {
+        return assignmentRepository.existsById(id);
     }
 
     @Override
     public void deleteAllAssignments() {
         assignmentRepository.deleteAll();
         log.info("All assignments deleted");
+    }
+
+    @Override
+    public List<Assignment> findAssignmentsByDueDateLessThan(LocalDateTime dueDateLimit) {
+        return assignmentRepository.findByDueDateLessThan(dueDateLimit);
     }
 }

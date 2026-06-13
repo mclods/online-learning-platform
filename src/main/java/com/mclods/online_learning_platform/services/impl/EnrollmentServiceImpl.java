@@ -1,9 +1,7 @@
 package com.mclods.online_learning_platform.services.impl;
 
-import com.mclods.online_learning_platform.entities.Course;
 import com.mclods.online_learning_platform.entities.Enrollment;
 import com.mclods.online_learning_platform.entities.EnrollmentId;
-import com.mclods.online_learning_platform.entities.Student;
 import com.mclods.online_learning_platform.exceptions.EntityDoesNotExistException;
 import com.mclods.online_learning_platform.repositories.EnrollmentRepository;
 import com.mclods.online_learning_platform.services.CourseService;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -33,16 +30,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public Enrollment createEnrollment(@Valid Enrollment enrollment) throws EntityDoesNotExistException {
-        Integer studentId = enrollment.getStudent().getId(),
-                courseId = enrollment.getCourse().getId();
-        Optional<Student> savedStudent = studentService.findStudentById(studentId);
-        Optional<Course> savedCourse = courseService.findCourseById(courseId);
-
-        if(savedStudent.isEmpty() || !savedStudent.get().equals(enrollment.getStudent())) {
+        if(!studentService.studentExistsById(enrollment.getStudent().getId())) {
             throw new EntityDoesNotExistException(enrollment.getStudent());
         }
 
-        if(savedCourse.isEmpty() || !savedCourse.get().equals(enrollment.getCourse())) {
+        if(!courseService.courseExistsById(enrollment.getCourse().getId())) {
             throw new EntityDoesNotExistException(enrollment.getCourse());
         }
 

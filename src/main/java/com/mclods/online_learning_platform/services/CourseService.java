@@ -4,7 +4,6 @@ import com.mclods.online_learning_platform.entities.Course;
 import com.mclods.online_learning_platform.exceptions.EntityDoesNotExistException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CourseService {
     Course createCourse(Course course) throws EntityDoesNotExistException;
@@ -13,11 +12,13 @@ public interface CourseService {
 
     List<Course> findAllCourses();
 
-    Optional<Course> findCourseById(Integer id);
+    boolean courseExistsById(Integer id);
 
     Course fullUpdateCourse(Course course) throws EntityDoesNotExistException;
 
     List<Course> fullUpdateCourses(List<Course> courses) throws EntityDoesNotExistException;
+
+    void deleteAllCourses();
 
     List<Course> findCoursesHavingTitleContainingWordIgnoreCase(String word);
 
@@ -30,6 +31,4 @@ public interface CourseService {
     List<Course> findCoursesHavingInstructorId(Integer id);
 
     List<Course> findCoursesByStudentId(Integer id);
-
-    void deleteAllCourses();
 }

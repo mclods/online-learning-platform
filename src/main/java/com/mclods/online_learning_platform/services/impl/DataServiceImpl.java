@@ -50,13 +50,12 @@ public class DataServiceImpl implements DataService {
         createStudents();
         createStudentProfiles();
         createInstructors();
+        createTags();
         createCourses();
         createModules();
         createAssignments();
         createSubmissions();
         createEnrollments();
-        createTags();
-        linkTagsAndCourses();
     }
 
     @Override
@@ -100,8 +99,8 @@ public class DataServiceImpl implements DataService {
                         LocalDateTime.parse("2024-03-05T14:20:00")
                 ),
                 new Student(
-                        "Ananya Singh",
-                        "ananya.singh@mail.com",
+                        "Anya Singh",
+                        "anya.singh@mail.com",
                         LocalDateTime.parse("2024-03-18T09:15:00")
                 ),
                 new Student(
@@ -206,8 +205,27 @@ public class DataServiceImpl implements DataService {
         instructorService.createInstructors(instructors);
     }
 
+    private void createTags() {
+        List<Tag> tags = List.of(
+                new Tag("Java"),
+                new Tag("Spring Boot"),
+                new Tag("Spring Security"),
+                new Tag("JPA"),
+                new Tag("SQL"),
+                new Tag("REST API"),
+                new Tag("DevOps"),
+                new Tag("Docker"),
+                new Tag("React"),
+                new Tag("JavaScript"),
+                new Tag("Databases"),
+                new Tag("Testing")
+        );
+        tagService.createTags(tags);
+    }
+
     private void createCourses() throws EntityDoesNotExistException {
         List<Instructor> instructors = instructorService.findAllInstructors();
+        List<Tag> tags = tagService.findAllTags();
 
         List<Course> courses = List.of(
                 new Course(
@@ -216,7 +234,8 @@ public class DataServiceImpl implements DataService {
                         1499.99,
                         Course.CourseLevel.BEGINNER,
                         LocalDateTime.parse("2024-01-05T10:00:00"),
-                        instructors.get(0)
+                        instructors.get(0),
+                        new HashSet<>(Set.of(tags.get(0), tags.get(1), tags.get(3),  tags.get(5)))
                 ),
                 new Course(
                         "Spring Security Masterclass",
@@ -224,7 +243,8 @@ public class DataServiceImpl implements DataService {
                         2499.00,
                         Course.CourseLevel.INTERMEDIATE,
                         LocalDateTime.parse("2024-02-01T10:00:00"),
-                        instructors.get(0)
+                        instructors.get(0),
+                        new HashSet<>(Set.of(tags.get(0), tags.get(1), tags.get(2)))
                 ),
                 new Course(
                         "Full-Stack with React and Spring",
@@ -232,7 +252,8 @@ public class DataServiceImpl implements DataService {
                         2999.00,
                         Course.CourseLevel.INTERMEDIATE,
                         null,
-                        instructors.get(1)
+                        instructors.get(1),
+                        new HashSet<>(Set.of(tags.get(0), tags.get(1), tags.get(5), tags.get(8), tags.get(9)))
                 ),
                 new Course(
                         "SQL and JPA Deep Dive",
@@ -240,7 +261,8 @@ public class DataServiceImpl implements DataService {
                         1999.00,
                         Course.CourseLevel.INTERMEDIATE,
                         LocalDateTime.parse("2024-03-01T10:00:00"),
-                        instructors.get(2)
+                        instructors.get(2),
+                        new HashSet<>(Set.of(tags.get(0), tags.get(3), tags.get(4), tags.get(10)))
                 ),
                 new Course(
                         "Docker and Kubernetes for Developers",
@@ -248,7 +270,8 @@ public class DataServiceImpl implements DataService {
                         3499.00,
                         Course.CourseLevel.ADVANCED,
                         LocalDateTime.parse("2024-03-20T10:00:00"),
-                        instructors.get(3)
+                        instructors.get(3),
+                        new HashSet<>(Set.of(tags.get(6), tags.get(7)))
                 ),
                 new Course(
                         "Java Testing with JUnit and Mockito",
@@ -256,7 +279,8 @@ public class DataServiceImpl implements DataService {
                         999.00,
                         Course.CourseLevel.BEGINNER,
                         LocalDateTime.parse("2024-04-10T10:00:00"),
-                        instructors.get(0)
+                        instructors.get(0),
+                        new HashSet<>(Set.of(tags.get(0), tags.get(1), tags.get(11)))
                 )
         );
         courseService.createCourses(courses);
@@ -618,36 +642,5 @@ public class DataServiceImpl implements DataService {
                 )
         );
         enrollmentService.createEnrollments(enrollments);
-    }
-
-    private void createTags() {
-        List<Tag> tags = List.of(
-                new Tag("Java"),
-                new Tag("Spring Boot"),
-                new Tag("Spring Security"),
-                new Tag("JPA"),
-                new Tag("SQL"),
-                new Tag("REST API"),
-                new Tag("DevOps"),
-                new Tag("Docker"),
-                new Tag("React"),
-                new Tag("JavaScript"),
-                new Tag("Databases"),
-                new Tag("Testing")
-        );
-        tagService.createTags(tags);
-    }
-
-    private void linkTagsAndCourses() throws EntityDoesNotExistException {
-        List<Course> courses = courseService.findAllCourses();
-        List<Tag> tags = tagService.findAllTags();
-
-        courses.get(0).setTags(new HashSet<>(Set.of(tags.get(0), tags.get(1), tags.get(3),  tags.get(5))));
-        courses.get(1).setTags(new HashSet<>(Set.of(tags.get(0), tags.get(1), tags.get(2))));
-        courses.get(2).setTags(new HashSet<>(Set.of(tags.get(0), tags.get(1), tags.get(5), tags.get(8), tags.get(9))));
-        courses.get(3).setTags(new HashSet<>(Set.of(tags.get(0), tags.get(3), tags.get(4), tags.get(10))));
-        courses.get(4).setTags(new HashSet<>(Set.of(tags.get(6), tags.get(7))));
-        courses.get(5).setTags(new HashSet<>(Set.of(tags.get(0), tags.get(1), tags.get(11))));
-        courseService.fullUpdateCourses(courses);
     }
 }

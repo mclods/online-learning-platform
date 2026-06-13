@@ -1,6 +1,5 @@
 package com.mclods.online_learning_platform.services.impl;
 
-import com.mclods.online_learning_platform.entities.Course;
 import com.mclods.online_learning_platform.entities.Module;
 import com.mclods.online_learning_platform.exceptions.EntityDoesNotExistException;
 import com.mclods.online_learning_platform.repositories.ModuleRepository;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -27,10 +25,7 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public Module createModule(@Valid Module module) throws EntityDoesNotExistException {
-        Integer courseId = module.getCourse().getId();
-        Optional<Course> savedCourse = courseService.findCourseById(courseId);
-
-        if(savedCourse.isEmpty() || !savedCourse.get().equals(module.getCourse())) {
+        if(!courseService.courseExistsById(module.getCourse().getId())) {
             throw new EntityDoesNotExistException(module.getCourse());
         }
 
@@ -61,18 +56,18 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public Optional<Module> findModuleById(Integer id) {
-        return moduleRepository.findById(id);
-    }
-
-    @Override
-    public List<Module> findModulesByCourseId(Integer courseId) {
-        return moduleRepository.findByCourseId(courseId);
+    public boolean moduleExistsById(Integer id) {
+        return moduleRepository.existsById(id);
     }
 
     @Override
     public void deleteAllModules() {
         moduleRepository.deleteAll();
         log.info("All modules deleted");
+    }
+
+    @Override
+    public List<Module> findModulesByCourseId(Integer courseId) {
+        return moduleRepository.findByCourseId(courseId);
     }
 }
