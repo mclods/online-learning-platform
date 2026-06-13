@@ -8,7 +8,7 @@
   },
   "item": [
     {
-      "name": "New Request",
+      "name": "Create Dummy Data",
       "request": {
         "method": "PUT",
         "header": [],
@@ -27,7 +27,7 @@
       "response": []
     },
     {
-      "name": "localhost:8080/data/delete-dummy",
+      "name": "Delete Dummy Data",
       "request": {
         "auth": {
           "type": "noauth"
