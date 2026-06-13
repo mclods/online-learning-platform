@@ -7,6 +7,7 @@ import com.mclods.online_learning_platform.repositories.AssignmentRepository;
 import com.mclods.online_learning_platform.services.AssignmentService;
 import com.mclods.online_learning_platform.services.ModuleService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assignmentRepository;
@@ -35,7 +37,10 @@ public class AssignmentServiceImpl implements AssignmentService {
 
         assignment.setId(null);
 
-        return assignmentRepository.save(assignment);
+        Assignment savedAssignment = assignmentRepository.save(assignment);
+        log.info("Assignment created with id={}", savedAssignment.getId());
+
+        return savedAssignment;
     }
 
     @Override
@@ -64,5 +69,11 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public List<Assignment> findAssignmentsByDueDateLessThan(LocalDateTime dueDateLimit) {
         return assignmentRepository.findByDueDateLessThan(dueDateLimit);
+    }
+
+    @Override
+    public void deleteAllAssignments() {
+        assignmentRepository.deleteAll();
+        log.info("All assignments deleted");
     }
 }

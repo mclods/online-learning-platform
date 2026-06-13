@@ -10,6 +10,7 @@ import com.mclods.online_learning_platform.services.CourseService;
 import com.mclods.online_learning_platform.services.EnrollmentService;
 import com.mclods.online_learning_platform.services.StudentService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class EnrollmentServiceImpl implements EnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
@@ -50,7 +52,10 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             enrollment.setEnrolledAt(LocalDateTime.now());
         }
 
-        return enrollmentRepository.save(enrollment);
+        Enrollment savedEnrollment = enrollmentRepository.save(enrollment);
+        log.info("Enrollment created with id={}", savedEnrollment.getId());
+
+        return savedEnrollment;
     }
 
     @Override
@@ -61,5 +66,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
 
         return savedEnrollments;
+    }
+
+    @Override
+    public void deleteAllEnrollments() {
+        enrollmentRepository.deleteAll();
+        log.info("All enrollments deleted");
     }
 }

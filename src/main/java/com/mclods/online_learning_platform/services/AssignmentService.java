@@ -17,4 +17,6 @@ public interface AssignmentService {
     Optional<Assignment> findAssignmentById(Integer id);
 
     List<Assignment> findAssignmentsByDueDateLessThan(LocalDateTime dueDateLimit);
+
+    void deleteAllAssignments();
 }

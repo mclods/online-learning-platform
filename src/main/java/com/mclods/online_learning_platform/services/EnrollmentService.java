@@ -9,4 +9,6 @@ public interface EnrollmentService {
     Enrollment createEnrollment(Enrollment enrollment) throws EntityDoesNotExistException;
 
     List<Enrollment> createEnrollments(List<Enrollment> enrollments) throws EntityDoesNotExistException;
+
+    void deleteAllEnrollments();
 }

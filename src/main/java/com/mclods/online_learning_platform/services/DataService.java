@@ -4,4 +4,6 @@ import com.mclods.online_learning_platform.exceptions.EntityDoesNotExistExceptio
 
 public interface DataService {
     void createDummyData() throws EntityDoesNotExistException;
+
+    void deleteDummyData();
 }

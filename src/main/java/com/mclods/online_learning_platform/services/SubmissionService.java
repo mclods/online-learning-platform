@@ -11,4 +11,6 @@ public interface SubmissionService {
     List<Submission> createSubmissions(List<Submission> submissions) throws EntityDoesNotExistException;
 
     List<Submission> findSubmissionsHavingScoreBetween(Double minScore, Double maxScore);
+
+    void deleteAllSubmissions();
 }

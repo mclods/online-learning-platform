@@ -4,11 +4,13 @@ import com.mclods.online_learning_platform.entities.Tag;
 import com.mclods.online_learning_platform.repositories.TagRepository;
 import com.mclods.online_learning_platform.services.TagService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
@@ -21,7 +23,10 @@ public class TagServiceImpl implements TagService {
     public Tag createTag(@Valid Tag tag) {
         tag.setId(null);
 
-        return tagRepository.save(tag);
+        Tag savedTag = tagRepository.save(tag);
+        log.info("Created tag with id {}", savedTag.getId());
+
+        return savedTag;
     }
 
     @Override
@@ -35,5 +40,11 @@ public class TagServiceImpl implements TagService {
         tagRepository.findAll().forEach(tags::add);
 
         return tags;
+    }
+
+    @Override
+    public void deleteAllTags() {
+        tagRepository.deleteAll();
+        log.info("All tags deleted");
     }
 }

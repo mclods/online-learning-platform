@@ -7,6 +7,7 @@ import com.mclods.online_learning_platform.repositories.CourseRepository;
 import com.mclods.online_learning_platform.services.CourseService;
 import com.mclods.online_learning_platform.services.InstructorService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
@@ -39,7 +41,10 @@ public class CourseServiceImpl implements CourseService {
             course.setCreatedAt(LocalDateTime.now());
         }
 
-        return courseRepository.save(course);
+        Course savedCourse = courseRepository.save(course);
+        log.info("Course created with id={}", savedCourse.getId());
+
+        return savedCourse;
     }
 
     @Override
@@ -115,5 +120,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> findCoursesByStudentId(Integer id) {
         return courseRepository.findCoursesByStudentId(id);
+    }
+
+    @Override
+    public void deleteAllCourses() {
+        courseRepository.deleteAll();
+        log.info("All courses deleted");
     }
 }

@@ -9,4 +9,6 @@ public interface StudentProfileService {
     StudentProfile createStudentProfile(StudentProfile studentProfile) throws EntityDoesNotExistException;
 
     List<StudentProfile> createStudentProfiles(List<StudentProfile> studentProfiles) throws EntityDoesNotExistException;
+
+    void deleteAllStudentProfiles();
 }

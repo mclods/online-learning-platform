@@ -35,7 +35,7 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private Set<Enrollment> enrollments;
 
-    @OneToOne(mappedBy = "student")
+    @OneToOne(mappedBy = "student", cascade = CascadeType.REMOVE)
     private StudentProfile studentProfile;
 
     @OneToMany(mappedBy = "student")

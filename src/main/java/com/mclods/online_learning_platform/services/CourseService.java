@@ -30,4 +30,6 @@ public interface CourseService {
     List<Course> findCoursesHavingInstructorId(Integer id);
 
     List<Course> findCoursesByStudentId(Integer id);
+
+    void deleteAllCourses();
 }

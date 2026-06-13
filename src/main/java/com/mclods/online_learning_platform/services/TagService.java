@@ -10,4 +10,6 @@ public interface TagService {
     List<Tag> createTags(List<Tag> tags);
 
     List<Tag> findAllTags();
+
+    void deleteAllTags();
 }

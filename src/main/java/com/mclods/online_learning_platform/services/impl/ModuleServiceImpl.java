@@ -7,12 +7,14 @@ import com.mclods.online_learning_platform.repositories.ModuleRepository;
 import com.mclods.online_learning_platform.services.CourseService;
 import com.mclods.online_learning_platform.services.ModuleService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class ModuleServiceImpl implements ModuleService {
     private final ModuleRepository moduleRepository;
@@ -34,7 +36,10 @@ public class ModuleServiceImpl implements ModuleService {
 
         module.setId(null);
 
-        return moduleRepository.save(module);
+        Module savedModule = moduleRepository.save(module);
+        log.info("Module created with id={}", savedModule.getId());
+
+        return savedModule;
     }
 
     @Override
@@ -63,5 +68,11 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public List<Module> findModulesByCourseId(Integer courseId) {
         return moduleRepository.findByCourseId(courseId);
+    }
+
+    @Override
+    public void deleteAllModules() {
+        moduleRepository.deleteAll();
+        log.info("All modules deleted");
     }
 }

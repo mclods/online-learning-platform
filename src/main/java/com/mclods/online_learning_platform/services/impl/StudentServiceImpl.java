@@ -4,6 +4,7 @@ import com.mclods.online_learning_platform.entities.Student;
 import com.mclods.online_learning_platform.repositories.StudentRepository;
 import com.mclods.online_learning_platform.services.StudentService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
@@ -29,7 +31,10 @@ public class StudentServiceImpl implements StudentService {
             student.setCreatedAt(LocalDateTime.now());
         }
 
-        return studentRepository.save(student);
+        Student savedStudent = studentRepository.save(student);
+        log.info("Student created with id {}", savedStudent.getId());
+
+        return savedStudent;
     }
 
     @Override
@@ -66,5 +71,11 @@ public class StudentServiceImpl implements StudentService {
 
         var example = Example.of(student,  matcher);
         return studentRepository.findAll(example);
+    }
+
+    @Override
+    public void deleteAllStudents() {
+        studentRepository.deleteAll();
+        log.info("All students deleted");
     }
 }
