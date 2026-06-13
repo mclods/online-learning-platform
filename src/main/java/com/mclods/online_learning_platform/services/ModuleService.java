@@ -16,4 +16,6 @@ public interface ModuleService {
     Optional<Module> findModuleById(Integer id);
 
     List<Module> findModulesByCourseId(Integer courseId);
+
+    void deleteAllModules();
 }

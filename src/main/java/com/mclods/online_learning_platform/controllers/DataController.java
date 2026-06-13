@@ -3,10 +3,7 @@ package com.mclods.online_learning_platform.controllers;
 import com.mclods.online_learning_platform.exceptions.EntityDoesNotExistException;
 import com.mclods.online_learning_platform.services.DataService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/data")
@@ -21,5 +18,10 @@ public class DataController {
     @ResponseStatus(HttpStatus.OK)
     public void createDummyData() throws EntityDoesNotExistException {
         dataService.createDummyData();
+    }
+
+    @DeleteMapping("/delete-dummy")
+    public void deleteDummyData() {
+        dataService.deleteDummyData();
     }
 }

@@ -4,12 +4,14 @@ import com.mclods.online_learning_platform.entities.Instructor;
 import com.mclods.online_learning_platform.repositories.InstructorRepository;
 import com.mclods.online_learning_platform.services.InstructorService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class InstructorServiceImpl implements InstructorService {
     private final InstructorRepository instructorRepository;
@@ -21,7 +23,11 @@ public class InstructorServiceImpl implements InstructorService {
     @Override
     public Instructor createInstructor(@Valid Instructor instructor) {
         instructor.setId(null);
-        return instructorRepository.save(instructor);
+
+        Instructor savedInstructor = instructorRepository.save(instructor);
+        log.info("Instructor created with id={}", savedInstructor.getId());
+
+        return savedInstructor;
     }
 
     @Override
@@ -40,5 +46,11 @@ public class InstructorServiceImpl implements InstructorService {
     @Override
     public Optional<Instructor> findInstructorById(Integer id) {
         return instructorRepository.findById(id);
+    }
+
+    @Override
+    public void deleteAllInstructors() {
+        instructorRepository.deleteAll();
+        log.info("All instructors deleted");
     }
 }

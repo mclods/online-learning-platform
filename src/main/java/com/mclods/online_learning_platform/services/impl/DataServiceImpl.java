@@ -59,6 +59,19 @@ public class DataServiceImpl implements DataService {
         linkTagsAndCourses();
     }
 
+    @Override
+    public void deleteDummyData() {
+        studentService.deleteAllStudents();
+        studentProfileService.deleteAllStudentProfiles();
+        courseService.deleteAllCourses();
+        instructorService.deleteAllInstructors();
+        moduleService.deleteAllModules();
+        assignmentService.deleteAllAssignments();
+        submissionService.deleteAllSubmissions();
+        enrollmentService.deleteAllEnrollments();
+        tagService.deleteAllTags();
+    }
+
     private void createStudents() {
         List<Student> students = List.of(
                 new Student(

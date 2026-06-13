@@ -13,4 +13,6 @@ public interface InstructorService {
     List<Instructor> findAllInstructors();
 
     Optional<Instructor> findInstructorById(Integer id);
+
+    void deleteAllInstructors();
 }

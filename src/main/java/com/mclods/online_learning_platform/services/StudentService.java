@@ -19,4 +19,6 @@ public interface StudentService {
     List<String> findStudentNamesCompletedAtLeastOneCourse();
 
     List<Student> findStudentsHavingNameContainingWord(String word);
+
+    void deleteAllStudents();
 }

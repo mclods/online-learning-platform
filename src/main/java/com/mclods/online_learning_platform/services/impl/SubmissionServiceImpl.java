@@ -9,6 +9,7 @@ import com.mclods.online_learning_platform.services.AssignmentService;
 import com.mclods.online_learning_platform.services.StudentService;
 import com.mclods.online_learning_platform.services.SubmissionService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class SubmissionServiceImpl implements SubmissionService {
     private final SubmissionRepository submissionRepository;
@@ -49,7 +51,10 @@ public class SubmissionServiceImpl implements SubmissionService {
             submission.setSubmittedAt(LocalDateTime.now());
         }
 
-        return submissionRepository.save(submission);
+        Submission savedSubmission = submissionRepository.save(submission);
+        log.info("Submission created with id {}", savedSubmission.getId());
+
+        return savedSubmission;
     }
 
     @Override
@@ -65,5 +70,11 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Override
     public List<Submission> findSubmissionsHavingScoreBetween(Double minScore, Double maxScore) {
         return submissionRepository.findByScoreBetween(minScore, maxScore);
+    }
+
+    @Override
+    public void deleteAllSubmissions() {
+        submissionRepository.deleteAll();
+        log.info("All submissions deleted");
     }
 }
