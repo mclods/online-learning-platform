@@ -4,7 +4,6 @@ import com.mclods.online_learning_platform.entities.Module;
 import com.mclods.online_learning_platform.exceptions.EntityDoesNotExistException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ModuleService {
     Module createModule(Module module) throws EntityDoesNotExistException;
@@ -13,9 +12,9 @@ public interface ModuleService {
 
     List<Module> findAllModules();
 
-    Optional<Module> findModuleById(Integer id);
-
-    List<Module> findModulesByCourseId(Integer courseId);
+    boolean moduleExistsById(Integer id);
 
     void deleteAllModules();
+
+    List<Module> findModulesByCourseId(Integer courseId);
 }

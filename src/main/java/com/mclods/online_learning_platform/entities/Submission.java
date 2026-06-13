@@ -28,13 +28,13 @@ public class Submission {
 
     @ToString.Exclude
     @NotNull(message = "Submission does not have a valid assignment")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignment_id")
     private Assignment assignment;
 
     @ToString.Exclude
     @NotNull(message = "Submission does not have a valid student")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
 

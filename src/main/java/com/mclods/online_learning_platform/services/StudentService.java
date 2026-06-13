@@ -3,7 +3,6 @@ package com.mclods.online_learning_platform.services;
 import com.mclods.online_learning_platform.entities.Student;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StudentService {
     Student createStudent(Student student);
@@ -12,13 +11,13 @@ public interface StudentService {
 
     List<Student> findAllStudents();
 
-    Optional<Student> findStudentById(Integer id);
+    boolean studentExistsById(Integer id);
+
+    void deleteAllStudents();
 
     List<Student> findStudentsByEmail(String email);
 
     List<String> findStudentNamesCompletedAtLeastOneCourse();
 
     List<Student> findStudentsHavingNameContainingWord(String word);
-
-    void deleteAllStudents();
 }

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -48,8 +47,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Optional<Student> findStudentById(Integer id) {
-        return studentRepository.findById(id);
+    public boolean studentExistsById(Integer id) {
+        return studentRepository.existsById(id);
+    }
+
+    @Override
+    public void deleteAllStudents() {
+        studentRepository.deleteAll();
+        log.info("All students deleted");
     }
 
     @Override
@@ -67,15 +72,11 @@ public class StudentServiceImpl implements StudentService {
         var student = new Student();
         student.setName(word);
 
-        var matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        var matcher = ExampleMatcher.matching()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase(true);
 
         var example = Example.of(student,  matcher);
         return studentRepository.findAll(example);
-    }
-
-    @Override
-    public void deleteAllStudents() {
-        studentRepository.deleteAll();
-        log.info("All students deleted");
     }
 }

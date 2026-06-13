@@ -33,7 +33,7 @@ public class Module {
 
     @ToString.Exclude
     @NotNull(message = "Module does not have a valid course")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
 

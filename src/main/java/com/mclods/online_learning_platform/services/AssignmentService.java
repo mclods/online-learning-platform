@@ -5,7 +5,6 @@ import com.mclods.online_learning_platform.exceptions.EntityDoesNotExistExceptio
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface AssignmentService {
     Assignment createAssignment(Assignment assignment) throws EntityDoesNotExistException;
@@ -14,9 +13,9 @@ public interface AssignmentService {
 
     List<Assignment> findAllAssignments();
 
-    Optional<Assignment> findAssignmentById(Integer id);
-
-    List<Assignment> findAssignmentsByDueDateLessThan(LocalDateTime dueDateLimit);
+    boolean assignmentExistsById(Integer id);
 
     void deleteAllAssignments();
+
+    List<Assignment> findAssignmentsByDueDateLessThan(LocalDateTime dueDateLimit);
 }

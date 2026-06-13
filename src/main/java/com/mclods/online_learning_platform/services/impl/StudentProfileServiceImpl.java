@@ -1,6 +1,5 @@
 package com.mclods.online_learning_platform.services.impl;
 
-import com.mclods.online_learning_platform.entities.Student;
 import com.mclods.online_learning_platform.entities.StudentProfile;
 import com.mclods.online_learning_platform.exceptions.EntityDoesNotExistException;
 import com.mclods.online_learning_platform.repositories.StudentProfileRepository;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -27,10 +25,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
 
     @Override
     public StudentProfile createStudentProfile(@Valid StudentProfile studentProfile) throws EntityDoesNotExistException {
-        Integer studentId = studentProfile.getStudent().getId();
-        Optional<Student> savedStudent = studentService.findStudentById(studentId);
-
-        if(savedStudent.isEmpty() || !savedStudent.get().equals(studentProfile.getStudent())) {
+        if(!studentService.studentExistsById(studentProfile.getStudent().getId())) {
             throw new EntityDoesNotExistException(studentProfile.getStudent());
         }
 

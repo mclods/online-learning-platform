@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -44,8 +43,8 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
-    public Optional<Instructor> findInstructorById(Integer id) {
-        return instructorRepository.findById(id);
+    public boolean instructorExistsById(Integer id) {
+        return instructorRepository.existsById(id);
     }
 
     @Override

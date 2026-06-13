@@ -24,7 +24,7 @@ public class TagServiceImpl implements TagService {
         tag.setId(null);
 
         Tag savedTag = tagRepository.save(tag);
-        log.info("Created tag with id {}", savedTag.getId());
+        log.info("Tag created with id {}", savedTag.getId());
 
         return savedTag;
     }

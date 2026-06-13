@@ -11,6 +11,7 @@ public interface CourseRepository extends CrudRepository<Course, Integer>, Cours
 
     List<Course> findByPriceBetween(Double minPrice, Double maxPrice);
 
+    @Query("SELECT c FROM Course c WHERE c.price BETWEEN :minPrice AND :maxPrice ORDER BY LOWER(c.title)")
     List<Course> findByPriceBetweenOrderByTitle(Double minPrice, Double maxPrice);
 
     @Query(value = "SELECT COUNT(*) FROM course WHERE level = 'INTERMEDIATE'", nativeQuery = true)
