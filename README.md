@@ -31,3 +31,6 @@ An Online Learning Platform made with Spring.
 * **PUT** `/data/create-dummy` - Create Dummy Data
 * **DELETE** `/data/delete-dummy` - Delete Dummy Data
 
+### Dummy Data
+
+Refer [Dummy Data](DUMMY_DATA.md)
